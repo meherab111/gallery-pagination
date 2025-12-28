@@ -1,38 +1,107 @@
-import React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Button from "../../../shared/Button";
 
 const GalleryDisplay = () => {
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(1)
+
+  const apiCallFunc = async () => {
+    const apiResponse = await axios.get(
+      `https://picsum.photos/v2/list?page=${page}&limit=10`
+    );
+    setData(apiResponse.data);
+  };
+
+  useEffect(() => {
+    apiCallFunc();
+  }, [page]);
+
+  const forwardFunc = () => {
+    if(page<15){
+      setPage(page+1)
+    }
+  }
+
+  const backwardFunc = () => {
+    if(page>1){
+      setPage(page-1)
+    }
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="h-screen mx-auto flex justify-center items-center">
+        <h1 className="font-poppins text-[36px] leading-tight">Loading ...</h1>
+      </div>
+    );
+  }
+
+  const arrowBtnClass =
+    "flex justify-center items-center bg-light-green h-[50px] md:h-[80px] 2xl:h-[100px] w-[80px] 2xl:w-[100px] rounded-full cursor-pointer";
+
+
   return (
-    <section className="h-screen container mx-auto px-2.5">
-        
-    {/* upper part */}
-      <div className="flex justify-center items-center">
-        <div className="flex justify-center items-center bg-light-green h-25 w-25 rounded-full cursor-pointer">
-            <i className="fa-sharp fa-solid fa-arrow-left text-[34px]"></i>
+    <section className="h-full container mx-auto px-[10px]">
+      <div className={`max-md:hidden fixed bg-light-green top-[20px] right-[20px] ${arrowBtnClass}`}>
+        <h1 className="font-poppins text-[32px] lg:text-[48px] font-semibold leading-tight">{page}</h1>
+      </div>
+
+      {/* upper part */}
+      <div className="hidden 2xl:flex justify-center items-center">
+        <Button className = {arrowBtnClass} arrow = {"fa-arrow-left"} func ={backwardFunc} />
+        <div className="flex justify-center h-[110px] lg:h-[160px] w-[700px] 2xl:w-[832px] bg-light-red rounded-b-[70px] mx-[90px]">
+          <p className="font-poppins text-[clamp(34px,5vw,96px)]">Image Gallery</p>
         </div>
-        <div className="flex justify-center h-40 w-208 bg-light-red rounded-b-[70px] mx-22.5">
-          <p className="font-poppins text-[96px]">Image Gallery</p>
+        <Button className = {arrowBtnClass} arrow = {"fa-arrow-right"} func ={forwardFunc} />
+      </div>
+
+      <div className="flex flex-col justify-center items-center 2xl:hidden">
+        <div className="flex justify-center h-[80px] md:h-[110px] w-full sm:w-[600px] lg:w-[800px] bg-light-red rounded-b-[70px] mx-[90px]">
+          <p className="font-poppins text-[clamp(34px,5vw,96px)]">Image Gallery</p>
         </div>
-        <div className="flex justify-center items-center bg-light-green h-25 w-25 rounded-full cursor-pointer">
-          <i className="fa-sharp fa-solid fa-arrow-right text-[34px]"></i>
+        <div className="flex gap-[20px] mt-[10px]">
+        <Button className = {arrowBtnClass} arrow = {"fa-arrow-left"} func ={backwardFunc} />
+        <Button className = {arrowBtnClass} arrow = {"fa-arrow-right"} func ={forwardFunc} />
         </div>
       </div>
 
-    {/* lower part */}
-      <div className="py-9.5 grid grid-cols-4 place-items-center gap-y-9.5">
-            <div className="h-95 w-77.5 bg-light-purple flex flex-col justify-between items-center rounded-[50px] shadow-md">
+      {/* lower part */}
+      <div className="py-[26px] md:py-[38px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 place-items-center gap-y-[26px] md:gap-y-[38px]">
+        {data.map((elem, idx) => {
+          return (
+            <div
+              key={idx}
+              className="h-[300px] md:h-[380px] w-[240px] md:w-[310px] bg-light-purple flex flex-col justify-between items-center rounded-[50px] shadow-md gap-5"
+            >
+              <div>
+                <img
+                  src={elem.download_url}
+                  alt="images"
+                  className="h-[170px] md:h-[210px] w-[220px] md:w-[280px] object-cover rounded-[40px] mt-[10px]"
+                />
+              </div>
+              <div className="w-full flex justify-between px-4 mb-[50px]">
                 <div>
-                    <img src="https://picsum.photos/id/102/4320/3240" alt="images" className="h-auto w-70 object-cover rounded-[40px] mt-4" />
+                  <h1 className="font-poppins text-[24px] md:text-[36px] leading-tight">
+                    {elem.author}
+                  </h1>
+                  <h2 className="font-poppins text-[14px] md:text-[24px] text-light-gray">
+                    Author
+                  </h2>
                 </div>
-                <div className="w-full flex justify-between px-4 mb-14">
-                    <div>
-                        <h1 className="font-poppins text-[36px]">Ben Moore</h1>
-                        <h2 className="font-poppins text-[24px] text-light-gray">Author</h2>
-                    </div>
-                    <div>
-                        <a href="102-4320x3240.jpg" download={"102-4320x3240.jpg"}><i className="fa-sharp fa-solid fa-download text-[26px] mt-4" title="Download"></i></a>
-                    </div>
+                <div>
+                  <a href="102-4320x3240.jpg" download={"102-4320x3240.jpg"}>
+                    <i
+                      className="fa-sharp fa-solid fa-download text-[20px] md:text-[26px] mt-4"
+                      title="Download"
+                    ></i>
+                  </a>
                 </div>
+              </div>
             </div>
+          );
+        })}
       </div>
     </section>
   );
