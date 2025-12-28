@@ -1,11 +1,11 @@
-import GalleryDisplay from "./components/GalleryDisplay"
+import GalleryApi from "./components/GalleryApi";
 
 const Home = () => {
   return (
     <>
-        <GalleryDisplay />
+      <GalleryApi />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
