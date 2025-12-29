@@ -21,7 +21,7 @@ const GalleryDisplay = (props) => {
         <Button arrow={"fa-arrow-left"} func={backwardFunc} pageCount={page} />
         <div className="flex justify-center h-[110px] lg:h-[160px] w-[600px] 2xl:w-[720px] bg-light-red rounded-b-[70px] mx-[90px]">
           <h1 className="font-poppins text-[clamp(34px,5vw,96px)]">
-            PixGallery
+            PiksGallery
           </h1>
         </div>
         <Button arrow={"fa-arrow-right"} func={forwardFunc} pageCount={page} />
@@ -31,7 +31,7 @@ const GalleryDisplay = (props) => {
       <div className="flex flex-col justify-center items-center 2xl:hidden">
         <div className="flex justify-center h-[60px] sm:h-[90px] md:h-[110px] w-full sm:w-[600px] lg:w-[700px] bg-light-red rounded-b-[70px] mx-[90px]">
           <h1 className="font-poppins text-[clamp(34px,5vw,96px)]">
-            PixGallery
+            PiksGallery
           </h1>
         </div>
         <div className="flex gap-[20px] mt-[10px]">
