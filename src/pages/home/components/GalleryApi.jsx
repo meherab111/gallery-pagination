@@ -63,10 +63,22 @@ const GalleryApi = () => {
     }
   };
 
-  if (data.length === 0 || downloadImg) {
+  if (data.length === 0) {
     return (
       <div className="h-screen mx-auto flex justify-center items-center">
         <h1 className="font-poppins text-[36px] leading-tight">Loading ...</h1>
+      </div>
+    );
+  }
+
+  if (downloadImg) {
+    return (
+      <div className="h-screen mx-auto flex flex-col gap-[10px] justify-center items-center">
+        <i
+          className="fa-sharp fa-solid fa-download text-[46px] mt-4 cursor-pointer"
+          title="Download"
+        ></i>
+         <h1 className="font-poppins text-[36px] leading-tight">Downloading...</h1>
       </div>
     );
   }
