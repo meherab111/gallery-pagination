@@ -60,6 +60,9 @@ const GalleryDisplay = (props) => {
                 <img
                   src={elem.download_url}
                   alt="images"
+                  loading="eager"
+                  height="210"
+                  width="280"
                   className="h-[170px] md:h-[210px] w-[220px] md:w-[280px] object-cover rounded-[40px] mt-[10px]"
                 />
               </div>
